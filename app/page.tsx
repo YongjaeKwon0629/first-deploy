@@ -1,78 +1,83 @@
 import Image from "next/image";
 
-export default function Home() {
+type General = { name: string; github: string; bio: string };
+type Project = { title: string; summary: string; url: string; tech?: string[] };
+
+// 공개 레포 RAW URL (refs/heads, token X)
+const GENERAL_URL = "https://raw.githubusercontent.com/YongjaeKwon0629/first-deploy/main/service/resume_general_info_service.json";
+const PORTFOLIO_URL = "https://raw.githubusercontent.com/YongjaeKwon0629/first-deploy/main/service/resume_portfolio_service.json";
+
+// 서버 컴포넌트에서 직접 API 호출 (S1)
+async function getResumeInfo(): Promise<General> {
+  const res = await fetch(GENERAL_URL, { cache: "no-store" });
+  if (!res.ok) throw new Error("Failed to fetch data (general)");
+  const data = (await res.json()) as Record<string, unknown>;
+  return {
+    name: String(data.name ?? ""),
+    github: String(data.github ?? ""),
+    bio: String(data.bio ?? "")
+  };
+}
+
+// 서버 컴포넌트에서 직접 API 호출 (S2)
+async function getPortfolio(): Promise<Project[]> {
+  const res = await fetch(PORTFOLIO_URL, { cache: "no-store" });
+  if (!res.ok) throw new Error("Failed to fetch data (portfolio)");
+  const list = (await res.json()) as Project[];
+  return list.map(p => ({
+    title: p.title,
+    summary: p.summary,
+    url: p.url,
+    tech: p.tech ?? []
+  }));
+}
+
+export default async function Home() {
+  const [general, portfolio] = await Promise.all([getResumeInfo(), getPortfolio()]);
+
   return (
     <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
         <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+          src="/diginori_logo.jpg"
+          alt="logo"
+          width={360}
+          height={240}
+          className="rounded-md object-cover"
         />
-
-        {/* ✅ 문구 살짝 변경 */}
         <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
           <li className="mb-2 tracking-[-.01em]">
-            <strong>STEP 1</strong> — 이 문구를 팀 규칙대로 가볍게 수정했습니다.
+            안녕하세요 {general.name} 입니다.
           </li>
           <li className="tracking-[-.01em]">
-            저장하고 브라우저에서 <code>localhost:3000</code> 로 바로 확인!
+            테스트 할 수 없는 건 만들 수 없다
           </li>
         </ol>
 
-        {/* ✅ 버튼 텍스트도 살짝 변경 */}
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now 🚀
-          </a>
+        {/* 필요하면 아래 포트폴리오 리스트는 지워도 됩니다. JSON만 불러오는 게 목적이라면 */}
+        <div className="w-full max-w-screen-md mt-6">
+          <div className="mb-4">
+            <a className="text-blue-600 underline" href={general.github} target="_blank" rel="noreferrer">
+              GitHub
+            </a>
+            <p className="text-gray-700 mt-1">{general.bio}</p>
+          </div>
 
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read the docs 📚
-          </a>
+          <h2 className="text-xl font-semibold mb-3">Projects</h2>
+          <ul className="space-y-3">
+            {portfolio.map((p, idx) => (
+              <li key={idx} className="border p-4 rounded">
+                <div className="font-medium">{p.title}</div>
+                <div className="text-gray-700">{p.summary}</div>
+                <a className="text-blue-600 underline" href={p.url} target="_blank" rel="noreferrer">
+                  Visit
+                </a>
+                {p.tech?.length ? <div className="text-sm text-gray-500 mt-1">Tech: {p.tech.join(", ")}</div> : null}
+              </li>
+            ))}
+          </ul>
         </div>
       </main>
-
-      {/* ✅ 푸터 링크 라벨도 아주 살짝 변경 */}
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-           href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-           target="_blank" rel="noopener noreferrer">
-          <Image aria-hidden src="/file.svg" alt="File icon" width={16} height={16}/>
-          Learn (STEP 1)
-        </a>
-        <a className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-           href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-           target="_blank" rel="noopener noreferrer">
-          <Image aria-hidden src="/window.svg" alt="Window icon" width={16} height={16}/>
-          Examples
-        </a>
-        <a className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-           href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-           target="_blank" rel="noopener noreferrer">
-          <Image aria-hidden src="/globe.svg" alt="Globe icon" width={16} height={16}/>
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
