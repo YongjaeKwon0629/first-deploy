@@ -1,0 +1,14 @@
+[
+  {
+    "title": "프로젝트 A",
+    "summary": "Next.js 기반 개인 사이트",
+    "url": "https://example.com/a",
+    "tech": ["Next.js", "TypeScript"]
+  },
+  {
+    "title": "프로젝트 B",
+    "summary": "간단한 MSA 구조 데모",
+    "url": "https://example.com/b",
+    "tech": ["Node.js", "Express"]
+  }
+]
