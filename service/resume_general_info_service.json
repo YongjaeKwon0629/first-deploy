@@ -1,5 +1,9 @@
 {
   "name": "권용재",
+  "title": "Software Engineer",
   "github": "https://github.com/YongjaeKwon0629",
-  "bio": "Next.js와 타입스크립트를 좋아하는 개발자입니다."
+  "bio": "Next.js와 TypeScript를 좋아하는 개발자입니다. 테스트 할 수 없는 건 만들 수 없다는 신념으로 견고한 코드를 작성합니다.",
+  "email": "yongjae.kwon0629@gmail.com",
+  "location": "Seoul, South Korea",
+  "skills": ["Next.js", "TypeScript", "React", "Node.js", "Python", "AWS", "Docker", "Kubernetes"]
 }

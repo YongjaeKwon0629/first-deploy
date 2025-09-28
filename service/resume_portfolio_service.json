@@ -1,14 +1,14 @@
 [
   {
-    "title": "프로젝트 A",
-    "summary": "Next.js 기반 개인 사이트",
-    "url": "https://example.com/a",
-    "tech": ["Next.js", "TypeScript"]
+    "title": "first-deploy",
+    "summary": "Next.js 기반 개인 이력서 사이트. GitHub API를 활용한 동적 콘텐츠 로딩과 반응형 디자인을 적용했습니다.",
+    "url": "https://github.com/YongjaeKwon0629/first-deploy",
+    "tech": ["Next.js", "TypeScript", "Tailwind CSS", "GitHub API"]
   },
   {
-    "title": "프로젝트 B",
-    "summary": "간단한 MSA 구조 데모",
-    "url": "https://example.com/b",
-    "tech": ["Node.js", "Express"]
+    "title": "개인 프로젝트 컬렉션",
+    "summary": "다양한 기술 스택을 활용한 개인 프로젝트들을 GitHub에서 관리하고 있습니다. 웹 개발부터 백엔드, DevOps까지 폭넓은 경험을 보유하고 있습니다.",
+    "url": "https://github.com/YongjaeKwon0629",
+    "tech": ["JavaScript", "TypeScript", "Python", "Node.js", "React", "Next.js", "AWS"]
   }
 ]
