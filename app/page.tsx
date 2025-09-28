@@ -137,7 +137,7 @@ export default async function Home() {
 
         {/* Contact Section */}
         <section className="bg-gray-50 rounded-lg p-8 text-center">
-          <h2 className="text-2xl font-bold mb-4 text-gray-800">Let's Connect</h2>
+          <h2 className="text-2xl font-bold mb-4 text-gray-800">Let&apos;s Connect</h2>
           <p className="text-gray-600 mb-6">
             새로운 기회나 협업에 대해 이야기하고 싶으시다면 언제든 연락주세요.
           </p>
